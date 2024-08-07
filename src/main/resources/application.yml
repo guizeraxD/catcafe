@@ -1,0 +1,21 @@
+info:
+  app:
+    name: '@project.name@'
+    description: '@project.description@'
+    version: '@project.version@'
+
+server:
+  port: 8081
+  shutdown: "graceful"
+
+messages:
+  exception: 'classpath:/messages/global'
+
+user:
+  timezone: America/Sao_Paulo
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/catcafe
+      database: CatCafeDB
