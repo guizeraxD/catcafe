@@ -23,10 +23,4 @@ public interface UsuarioDTOMapper {
     @Mapping(source = "usuario.enderecos", target = "enderecos")
     UsuarioDTO usuarioToDTO(Usuario usuario);
 
-    List<UsuarioDTO> usuariosToDTOs(List<Usuario> usuarios);
-
-    default Page<UsuarioDTO> toUsuarioDTOPage(Page<Usuario> usuarios) {
-        List<UsuarioDTO> usuarioDTOs = usuariosToDTOs(usuarios.getContent());
-        return new PageImpl<>(usuarioDTOs, usuarios.getPageable(), usuarios.getTotalElements());
-    }
 }
