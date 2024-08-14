@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -26,6 +27,7 @@ public class Usuario implements Serializable {
     @Field("nome")
     private String nome;
     @Field("email")
+    @Indexed(unique = true)
     private String email;
     @Field("senha")
     private String senha;
@@ -41,6 +43,10 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
+    public Usuario(String email) {
+        this.email = email;
+    }
+
     public Usuario(String id, String nome, String email, String senha, String telefone, LocalDateTime dataCadastro, List<Endereco> enderecos, TipoUsuario tipoUsuario) {
         this.id = id;
         this.nome = nome;
@@ -53,7 +59,6 @@ public class Usuario implements Serializable {
     }
 
     public Usuario(String nome, String email, String senha, String telefone, LocalDateTime dataCadastro, List<Endereco> enderecos, TipoUsuario tipoUsuario) {
-
         this.nome = nome;
         this.email = email;
         this.senha = senha;

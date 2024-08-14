@@ -2,7 +2,9 @@ package br.com.guikun.srvcatcafe.adapter.exception.handler;
 
 import br.com.guikun.srvcatcafe.adapter.exception.handler.response.ApiErroResponse;
 import br.com.guikun.srvcatcafe.domain.exception.BusinessException;
+import br.com.guikun.srvcatcafe.domain.exception.ChaveDuplicadaException;
 import br.com.guikun.srvcatcafe.domain.exception.NaoEncontradoException;
+import br.com.guikun.srvcatcafe.domain.exception.TipoUsuarioInvalidoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -31,7 +33,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NaoEncontradoException.class)
     public ResponseEntity<Object> handleException(NaoEncontradoException ex){
         var apiErro = new ApiErroResponse(HttpStatus.NOT_FOUND, ex);
-        apiErro.setMensagem(ex.getMessage());
+        apiErro.setMensagem("Não encontrado");
+        apiErro.setMensagemDetalhada(ex.getMessage());
+        return buildResponseEntity(apiErro, ex);
+    }
+
+    @ExceptionHandler(TipoUsuarioInvalidoException.class)
+    public ResponseEntity<Object> handleException(TipoUsuarioInvalidoException ex){
+        var apiErro = new ApiErroResponse(HttpStatus.FORBIDDEN, ex);
+        apiErro.setMensagemDetalhada("Não é possivel cadastrar um novo usuario do tipo ADMIN, para fazer isso contate o admin atual");
+        return buildResponseEntity(apiErro, ex);
+    }
+
+    @ExceptionHandler(ChaveDuplicadaException.class)
+    public ResponseEntity<Object> handleException(ChaveDuplicadaException ex){
+        var apiErro = new ApiErroResponse(HttpStatus.BAD_REQUEST, ex);
+        apiErro.setMensagem("Esse email ja esta em uso");
+        apiErro.setMensagemDetalhada(ex.getErrorMsg());
         return buildResponseEntity(apiErro, ex);
     }
 

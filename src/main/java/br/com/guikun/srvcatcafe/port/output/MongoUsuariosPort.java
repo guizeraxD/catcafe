@@ -6,4 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface MongoUsuariosPort {
     Page<Usuario> listarUsuarios(Pageable pageable);
+    Usuario consultarUsuario(String email);
+    void cadastrarUsuario(Usuario usuario);
+    void removerUsuario(String email);
 }

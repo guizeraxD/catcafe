@@ -1,6 +1,8 @@
 package br.com.guikun.srvcatcafe.domain.service;
 
+import br.com.guikun.srvcatcafe.adapter.input.dto.CadastrarUsuario;
 import br.com.guikun.srvcatcafe.adapter.input.dto.UsuarioDTO;
+import br.com.guikun.srvcatcafe.adapter.input.dto.mapper.CadastrarUsuarioMapper;
 import br.com.guikun.srvcatcafe.adapter.input.dto.mapper.UsuarioDTOMapper;
 import br.com.guikun.srvcatcafe.domain.exception.NaoEncontradoException;
 import br.com.guikun.srvcatcafe.domain.model.Usuario;
@@ -27,5 +29,22 @@ public class UsuarioService implements UsuarioUseCase {
         return result.map(
                 UsuarioDTOMapper.INSTANCE::usuarioToDTO
         );
+    }
+
+    @Override
+    public UsuarioDTO consultarUsuario(String email) {
+        return UsuarioDTOMapper.INSTANCE.usuarioToDTO(
+                usuarioRepository.consultarUsuario(email)
+        );
+    }
+
+    @Override
+    public void cadastrarUsuario(CadastrarUsuario usuario) {
+        usuarioRepository.cadastrarUsuario(CadastrarUsuarioMapper.INSTANCE.cadastrarUsuarioToUsuario(usuario));
+    }
+
+    @Override
+    public void removerUsuario(String email) {
+        usuarioRepository.removerUsuario(email);
     }
 }
