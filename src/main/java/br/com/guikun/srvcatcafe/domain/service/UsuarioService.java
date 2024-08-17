@@ -1,9 +1,9 @@
 package br.com.guikun.srvcatcafe.domain.service;
 
-import br.com.guikun.srvcatcafe.adapter.input.dto.CadastrarUsuario;
-import br.com.guikun.srvcatcafe.adapter.input.dto.UsuarioDTO;
-import br.com.guikun.srvcatcafe.adapter.input.dto.mapper.CadastrarUsuarioMapper;
-import br.com.guikun.srvcatcafe.adapter.input.dto.mapper.UsuarioDTOMapper;
+import br.com.guikun.srvcatcafe.adapter.input.dto.usuario.CadastrarUsuario;
+import br.com.guikun.srvcatcafe.adapter.input.dto.usuario.UsuarioDTO;
+import br.com.guikun.srvcatcafe.adapter.input.dto.usuario.mapper.CadastrarUsuarioMapper;
+import br.com.guikun.srvcatcafe.adapter.input.dto.usuario.mapper.UsuarioDTOMapper;
 import br.com.guikun.srvcatcafe.domain.exception.NaoEncontradoException;
 import br.com.guikun.srvcatcafe.domain.model.Usuario;
 import br.com.guikun.srvcatcafe.port.input.UsuarioUseCase;
@@ -11,10 +11,13 @@ import br.com.guikun.srvcatcafe.port.output.MongoUsuariosPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsuarioService implements UsuarioUseCase {
+public class UsuarioService implements UsuarioUseCase, UserDetailsService {
 
     private final MongoUsuariosPort usuarioRepository;
 
@@ -29,6 +32,10 @@ public class UsuarioService implements UsuarioUseCase {
         return result.map(
                 UsuarioDTOMapper.INSTANCE::usuarioToDTO
         );
+    }
+    @Override
+    public Usuario consultarUsuarioAuth(String email) {
+        return usuarioRepository.consultarUsuario(email);
     }
 
     @Override
@@ -46,5 +53,10 @@ public class UsuarioService implements UsuarioUseCase {
     @Override
     public void removerUsuario(String email) {
         usuarioRepository.removerUsuario(email);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usuarioRepository.consultarUsuario(username);
     }
 }

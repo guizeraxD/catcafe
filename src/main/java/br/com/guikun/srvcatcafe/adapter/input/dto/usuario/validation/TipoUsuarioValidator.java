@@ -1,4 +1,4 @@
-package br.com.guikun.srvcatcafe.adapter.input.dto.validation;
+package br.com.guikun.srvcatcafe.adapter.input.dto.usuario.validation;
 
 import br.com.guikun.srvcatcafe.domain.enums.TipoUsuario;
 import br.com.guikun.srvcatcafe.domain.exception.TipoUsuarioInvalidoException;

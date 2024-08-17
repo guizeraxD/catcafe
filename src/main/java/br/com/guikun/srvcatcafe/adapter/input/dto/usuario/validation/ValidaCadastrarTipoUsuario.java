@@ -1,4 +1,4 @@
-package br.com.guikun.srvcatcafe.adapter.input.dto.validation;
+package br.com.guikun.srvcatcafe.adapter.input.dto.usuario.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -1,24 +1,25 @@
 package br.com.guikun.srvcatcafe.domain.model;
 
 import br.com.guikun.srvcatcafe.domain.enums.TipoUsuario;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 @Document(collection = "Usuarios")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -37,17 +38,13 @@ public class Usuario implements Serializable {
     private LocalDateTime dataCadastro;
     @Field("enderecos")
     private List<Endereco> enderecos;
-    @Field("tipoUsuario")
-    private TipoUsuario tipoUsuario;
+    @Field("roles")
+    private List<TipoUsuario> roles;
 
     public Usuario() {
     }
 
-    public Usuario(String email) {
-        this.email = email;
-    }
-
-    public Usuario(String id, String nome, String email, String senha, String telefone, LocalDateTime dataCadastro, List<Endereco> enderecos, TipoUsuario tipoUsuario) {
+    public Usuario(String id, String nome, String email, String senha, String telefone, LocalDateTime dataCadastro, List<Endereco> enderecos, List<TipoUsuario> roles) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -55,19 +52,45 @@ public class Usuario implements Serializable {
         this.telefone = telefone;
         this.dataCadastro = dataCadastro;
         this.enderecos = enderecos;
-        this.tipoUsuario = tipoUsuario;
+        this.roles = roles;
     }
 
-    public Usuario(String nome, String email, String senha, String telefone, LocalDateTime dataCadastro, List<Endereco> enderecos, TipoUsuario tipoUsuario) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.telefone = telefone;
-        this.dataCadastro = dataCadastro;
-        this.enderecos = enderecos;
-        this.tipoUsuario = tipoUsuario;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(roles -> new SimpleGrantedAuthority(roles.name()))
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     public String getId() {
         return id;
@@ -125,12 +148,12 @@ public class Usuario implements Serializable {
         this.enderecos = enderecos;
     }
 
-    public TipoUsuario getTipoUsuario() {
-        return tipoUsuario;
+    public List<TipoUsuario> getRoles() {
+        return roles;
     }
 
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setRoles(List<TipoUsuario> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -143,7 +166,7 @@ public class Usuario implements Serializable {
                 ", telefone='" + telefone + '\'' +
                 ", dataCadastro=" + dataCadastro +
                 ", enderecos=" + enderecos +
-                ", tipoUsuario=" + tipoUsuario +
+                ", roles=" + roles +
                 '}';
     }
 }

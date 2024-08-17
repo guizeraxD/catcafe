@@ -1,6 +1,6 @@
-package br.com.guikun.srvcatcafe.adapter.input.dto.mapper;
+package br.com.guikun.srvcatcafe.adapter.input.dto.usuario.mapper;
 
-import br.com.guikun.srvcatcafe.adapter.input.dto.UsuarioDTO;
+import br.com.guikun.srvcatcafe.adapter.input.dto.usuario.UsuarioDTO;
 import br.com.guikun.srvcatcafe.domain.model.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +15,7 @@ public interface UsuarioDTOMapper {
     @Mapping(source = "usuario.email", target = "email")
     @Mapping(source = "usuario.telefone", target = "telefone")
     @Mapping(source = "usuario.dataCadastro", target = "dataCadastro")
-    @Mapping(source = "usuario.tipoUsuario", target = "tipoUsuario")
+    @Mapping(source = "usuario.roles", target = "tipoUsuario")
     @Mapping(source = "usuario.enderecos", target = "enderecos")
     UsuarioDTO usuarioToDTO(Usuario usuario);
 

@@ -1,9 +1,8 @@
 package br.com.guikun.srvcatcafe.adapter.input.impl;
 
 import br.com.guikun.srvcatcafe.adapter.input.IUsuarioController;
-import br.com.guikun.srvcatcafe.adapter.input.dto.CadastrarUsuario;
-import br.com.guikun.srvcatcafe.adapter.input.dto.UsuarioDTO;
-import br.com.guikun.srvcatcafe.domain.model.Usuario;
+import br.com.guikun.srvcatcafe.adapter.input.dto.usuario.CadastrarUsuario;
+import br.com.guikun.srvcatcafe.adapter.input.dto.usuario.UsuarioDTO;
 import br.com.guikun.srvcatcafe.port.input.UsuarioUseCase;
 import br.com.guikun.srvcatcafe.utils.LogEnum;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,10 +22,10 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Informacoes a respeito dos Usuarios.", description = "Recursos para ver/manipular informações dos usuarios.")
 public class UsuarioController implements IUsuarioController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
-    private static String LOG_LISTAR_USUARIOS = "listarUsuarios ";
-    private static String LOG_CONSULTAR_USUARIO = "consultarUsuario ";
-    private static String LOG_CADASTRAR_USUARIO = "cadastrarUsuario ";
-    private static String LOG_REMOVER_USUARIO = "cadastrarUsuario ";
+    private static final String LOG_LISTAR_USUARIOS = "listarUsuarios ";
+    private static final String LOG_CONSULTAR_USUARIO = "consultarUsuario ";
+    private static final String LOG_CADASTRAR_USUARIO = "cadastrarUsuario ";
+    private static final String LOG_REMOVER_USUARIO = "cadastrarUsuario ";
     private final UsuarioUseCase usuarioUseCase;
 
     public UsuarioController(UsuarioUseCase usuarioUseCase) {

@@ -1,4 +1,4 @@
-package br.com.guikun.srvcatcafe.adapter.input.dto;
+package br.com.guikun.srvcatcafe.adapter.input.dto.usuario;
 
 import br.com.guikun.srvcatcafe.domain.enums.TipoUsuario;
 import br.com.guikun.srvcatcafe.domain.model.Endereco;
@@ -12,4 +12,4 @@ public record UsuarioDTO(
         String telefone,
         LocalDateTime dataCadastro,
         List<Endereco> enderecos,
-        TipoUsuario tipoUsuario) {}
+        List<TipoUsuario> tipoUsuario) {}

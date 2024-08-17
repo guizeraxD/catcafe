@@ -19,3 +19,7 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/catcafe
       database: CatCafeDB
+
+jwt:
+  expiration:
+    time: 86400000
